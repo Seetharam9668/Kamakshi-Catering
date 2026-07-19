@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="te" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Kamakshi Catering – Traditional Brahmin South Indian catering services for weddings, birthdays, housewarmings in Hyderabad. Call 9866197455." />
+  <meta name="keywords" content="catering hyderabad, brahmin catering, telugu catering, wedding catering, banana leaf meals" />
+  <title>కామాక్షి క్యాటరింగ్ | Kamakshi Catering – Nizampet, Hyderabad</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Tiro+Telugu&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="#home" class="nav-brand">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Kamakshi Catering" class="nav-logo" />
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#contact" class="nav-cta">Book Now</a></li>
+      <li><a href="/admin" class="nav-admin"><i class="fas fa-lock"></i> Admin</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🍃 Traditional Brahmin Catering</div>
+    <h1 class="hero-title-tel">కామాక్షి క్యాటరింగ్</h1>
+    <h2 class="hero-title-en">Kamakshi Catering</h2>
+    <p class="hero-prop">ప్రొ. <strong>విఖ్యాత్</strong> | Prop. Vikyath</p>
+    <p class="hero-sub">
+      Authentic South Indian Brahmin cuisine for weddings, birthdays,<br class="desktop-only"/>
+      housewarmings, corporate events &amp; all auspicious occasions.
+    </p>
+    <div class="hero-buttons">
+      <a href="#contact" class="btn btn-primary"><i class="fas fa-calendar-check"></i> Book Now</a>
+      <a href="tel:9866197455" class="btn btn-outline"><i class="fas fa-phone-alt"></i> 9866197455</a>
+      <a href="https://wa.me/919866197455" class="btn btn-whatsapp" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-n">200+</span><span class="stat-l">Events</span></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span class="stat-n">10+</span><span class="stat-l">Years</span></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span class="stat-n">10k+</span><span class="stat-l">Guests Served</span></div>
+      <div class="stat-div"></div>
+      <div class="stat"><span class="stat-n">100%</span><span class="stat-l">Veg &amp; Hygienic</span></div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="plate-ring outer"></div>
+    <div class="plate-ring inner"></div>
+    <div class="banana-plate">
+      <div class="plate-emoji">🍃</div>
+      <p class="plate-label">Authentic<br/>Banana Leaf Meal</p>
+    </div>
+    <div class="float-chip chip1">🍚 Rice</div>
+    <div class="float-chip chip2">🥛 Sambar</div>
+    <div class="float-chip chip3">🍯 Sweet</div>
+    <div class="float-chip chip4">🥗 Rasam</div>
+  </div>
+  <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
+</section>
+
+<section class="about section-pad" id="about">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag green">మా గురించి</span>
+      <h2 class="section-title">About <span class="pink">Kamakshi</span> Catering</h2>
+      <p class="section-desc">Rooted in tradition, served with love.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card"><div class="about-icon">🌿</div><h3>100% Vegetarian</h3><p>Pure Sattvic vegetarian meals following traditional Brahmin recipes passed down through generations.</p></div>
+      <div class="about-card highlight-card"><div class="about-icon">🍃</div><h3>Banana Leaf Serving</h3><p>We offer the authentic అరటి ఆకు (banana leaf) serving experience for that true Telugu celebration feel.</p></div>
+      <div class="about-card"><div class="about-icon">👨‍🍳</div><h3>Expert Team</h3><p>Our experienced chefs bring decades of culinary mastery to every event, ensuring consistent quality.</p></div>
+      <div class="about-card"><div class="about-icon">✨</div><h3>Premium Hygiene</h3><p>We maintain the highest standards of cleanliness and food safety at every stage of preparation.</p></div>
+      <div class="about-card"><div class="about-icon">📍</div><h3>Nizampet, Hyderabad</h3><p>Based in Nizampet, we cater across Hyderabad and surrounding areas for all events big and small.</p></div>
+      <div class="about-card"><div class="about-icon">🙏</div><h3>Trusted by Families</h3><p>Over 200 successful events and thousands of happy guests — our reputation speaks for itself.</p></div>
+      <div class="about-card"><div class="about-icon">🧄</div><h3>Custom Cooking Preferences</h3><p>We prepare food as per your tradition — garlic can be included or completely avoided based on your requirement (Pure Brahmin style available).</p></div>
+    </div>
+    <div class="about-telugu">
+      <p>మా వద్ద: వివాహాది శుభకార్యములకు, డిన్నర్ పార్టీలకు, బర్త్‌డేలకు, గృహప్రవేశం, అన్ని ఈవెంట్లకు సాంప్రదాయ బ్రాహ్మణ శాఖాహార వంటకాలతో నమ్మకమైన క్యాటరింగ్ సేవలు చేయబడును.</p>
+    </div>
+  </div>
+</section>
+
+<section class="services section-pad" id="services">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag blue">సేవలు</span>
+      <h2 class="section-title">Our <span class="pink">Services</span></h2>
+      <p class="section-desc">Every occasion deserves a perfect meal.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card"><div class="svc-icon">💍</div><h3>వివాహాలు<br/><small>Weddings</small></h3><p>Grand wedding feasts with full traditional Brahmin meal setup including multiple courses on banana leaf.</p><span class="svc-tag">Most Popular</span></div>
+      <div class="service-card"><div class="svc-icon">🎂</div><h3>బర్త్‌డేలు<br/><small>Birthday Parties</small></h3><p>Colourful and flavourful spreads for birthday celebrations with customised sweet arrangements.</p></div>
+      <div class="service-card"><div class="svc-icon">🏠</div><h3>గృహప్రవేశం<br/><small>Housewarming</small></h3><p>Auspicious housewarming catering with traditional naivedyam and full family meal service.</p></div>
+      <div class="service-card"><div class="svc-icon">💼</div><h3>కార్పొరేట్<br/><small>Corporate Events</small></h3><p>Professional catering for corporate lunches, office parties, and business gatherings.</p></div>
+      <div class="service-card"><div class="svc-icon">🪔</div><h3>పండుగలు<br/><small>Festival Catering</small></h3><p>Seasonal festival specials — Ugadi, Sankranti, Dasara, and more with authentic recipes.</p></div>
+      <div class="service-card"><div class="svc-icon">👨‍👩‍👧‍👦</div><h3>కుటుంబ వేడుకలు<br/><small>Family Gatherings</small></h3><p>Intimate family functions with personalised menu selection and warm home-style cooking.</p></div>
+      <div class="service-card"><div class="svc-icon">🌿</div><h3>వెజ్ మీల్స్<br/><small>Veg Meal Plans</small></h3><p>Daily and weekly vegetarian meal plans for families and hostels with hygienic packaging.</p></div>
+      <div class="service-card"><div class="svc-icon">🍃</div><h3>అరటి ఆకు భోజనం<br/><small>Banana Leaf Meals</small></h3><p>Traditional banana leaf serving experience with all essential accompaniments — the ultimate Telugu meal.</p><span class="svc-tag specialty">Specialty</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+     MENU SECTION — now loaded dynamically from /menu API
+     ═══════════════════════════════════════════════════════════════════════ -->
+<section class="menu-section" id="menu">
+<div class="menu-container">
+
+  <div class="menu-header">
+    <div class="menu-tag">మెనూ</div>
+    <h2 class="menu-title">Our Complete <span>Menu</span></h2>
+    <p class="menu-desc">Authentic Brahmin flavours for every auspicious occasion</p>
+    <p class="menu-select-note">📝 <strong>Note:</strong> Please tick the items you want and after selecting click the <strong>"Add to Menu"</strong> button at the end of the menu section.</p>
+  </div>
+
+  <div class="spec-card">
+    <div class="spec-top">
+      <span class="spec-badge">★ Specialities</span>
+      <span class="spec-heading">We Are <em>Specialised In</em></span>
+    </div>
+    <div class="spec-items">
+      <span class="spec-item">పనస పొట్టు కూర</span>
+      <span class="spec-item">అరటి ఊచ కూర</span>
+      <span class="spec-item">పన్నీర్ బటర్ మసాలా</span>
+      <span class="spec-item">మిర్చి బజ్జి</span>
+      <span class="spec-item">బిర్యాని</span>
+      <span class="spec-item">మంచూరియా</span>
+      <span class="spec-item">గోంగూర పచ్చడి</span>
+    </div>
+  </div>
+
+  <!-- Dynamic menu grid injected here by loadMenu() in script.js -->
+  <div class="menu-masonry" id="menuMasonry">
+    <div class="menu-loading" id="menuLoading" style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#bbb;">
+      <i class="fas fa-spinner fa-spin" style="font-size:2rem;margin-bottom:12px;display:block;"></i>
+      Loading menu…
+    </div>
+  </div>
+
+  <div class="menu-add-bar">
+    <div class="menu-selection-summary">
+      <span id="menuSelectedCount">0</span> item(s) selected
+    </div>
+    <button class="menu-add-btn" id="addToMenuBtn" onclick="addSelectedToMenu()">
+      <i class="fas fa-plus-circle"></i> Add to Menu
+    </button>
+  </div>
+  <div class="menu-add-success hidden" id="menuAddSuccess">
+    ✅ Items added to the Menu field in the booking form below!
+  </div>
+
+  <p class="menu-note">Menu customised per event &nbsp;·&nbsp; Seasonal specials on request &nbsp;·&nbsp; Call <strong>9866197455</strong> for enquiries</p>
+
+</div>
+</section>
+
+<section class="gallery section-pad" id="gallery">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag blue">గ్యాలరీ</span>
+      <h2 class="section-title">Food <span class="pink">Gallery</span></h2>
+      <p class="section-desc">A visual feast from our kitchen to your table.</p>
+    </div>
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- Skeleton placeholders shown instantly while /gallery loads;
+           script.js replaces this content once the real photos (or an error) arrive. -->
+      <div class="gal-skeleton" aria-hidden="true"></div>
+      <div class="gal-skeleton" aria-hidden="true"></div>
+      <div class="gal-skeleton" aria-hidden="true"></div>
+      <div class="gal-skeleton" aria-hidden="true"></div>
+      <div class="gal-skeleton" aria-hidden="true"></div>
+      <div class="gal-skeleton" aria-hidden="true"></div>
+      <div class="gal-skeleton" aria-hidden="true"></div>
+      <div class="gal-skeleton" aria-hidden="true"></div>
+    </div>
+    <div class="gal-load-more-wrap">
+      <button type="button" id="galleryLoadMoreBtn" class="gal-load-more-btn hidden">Load More</button>
+    </div>
+  </div>
+</section>
+
+<section class="reviews-section section-pad" id="reviews">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag green">రివ్యూలు</span>
+      <h2 class="section-title">Customer <span class="pink">Reviews</span></h2>
+      <p class="section-desc">What our happy guests say about us.</p>
+    </div>
+    <div class="review-form-wrap">
+      <h3 class="form-title">✍️ Share Your Experience</h3>
+      <div id="reviewSuccess" class="success-msg hidden">
+        <i class="fas fa-check-circle"></i> Thank you! Your review has been posted.
+      </div>
+      <div id="reviewError" class="error-msg hidden"></div>
+      <div class="review-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="reviewName">Your Name *</label>
+            <input type="text" id="reviewName" placeholder="e.g. Ramesh Reddy" required />
+          </div>
+          <div class="form-group">
+            <label>Rating *</label>
+            <div class="star-selector" id="starSelector">
+              <span data-v="1">★</span>
+              <span data-v="2">★</span>
+              <span data-v="3">★</span>
+              <span data-v="4">★</span>
+              <span data-v="5">★</span>
+            </div>
+            <input type="hidden" id="ratingInput" value="0" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="reviewMsg">Your Review *</label>
+          <textarea id="reviewMsg" rows="3" placeholder="Tell us about your experience..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Add a Photo <span class="label-optional">(optional · JPG/PNG/WEBP · max 5 MB)</span></label>
+          <label class="photo-upload-label" id="photoUploadLabel">
+            <i class="fas fa-camera"></i>
+            <span id="photoLabelText">Click to upload a photo from your event</span>
+            <input type="file" id="reviewPhoto" accept="image/*" />
+          </label>
+          <img id="photoPreview" src="" alt="Preview" class="photo-preview hidden" />
+        </div>
+        <button class="btn btn-primary" id="submitReview">
+          <i class="fas fa-paper-plane"></i> Submit Review
+        </button>
+      </div>
+    </div>
+    <div class="reviews-grid" id="reviewsGrid">
+      <div class="reviews-loading"><i class="fas fa-spinner fa-spin"></i> Loading reviews...</div>
+    </div>
+  </div>
+</section>
+
+<section class="contact section-pad" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-tag blue">బుకింగ్</span>
+      <h2 class="section-title">Book Your <span class="pink">Event</span></h2>
+      <p class="section-desc">Tell us about your event and we'll be in touch within 24 hours.</p>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="info-card">
+          <i class="fas fa-map-marker-alt"></i>
+          <div><h4>Address</h4><p>Nizampet, Hyderabad,<br/>Telangana, India.</p></div>
+        </div>
+        <div class="info-card">
+          <i class="fas fa-phone-alt"></i>
+          <div><h4>Call / WhatsApp</h4><p><a href="tel:9866197455">9866197455</a></p></div>
+        </div>
+        <div class="info-card">
+          <i class="fas fa-clock"></i>
+          <div><h4>Working Hours</h4><p>Daily: 8:00 AM – 9:00 PM</p></div>
+        </div>
+        <a href="https://wa.me/919866197455?text=Hello%2C%20I%20want%20to%20book%20catering%20for%20my%20event." class="btn btn-whatsapp full-w" target="_blank">
+          <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+        </a>
+        <div class="map-placeholder">
+          <i class="fas fa-map-marked-alt"></i>
+          <p>Nizampet, Hyderabad</p>
+          <small>Google Maps — embed your iframe here</small>
+        </div>
+      </div>
+      <div class="booking-form-wrap">
+        <div id="bookingSuccess" class="success-msg hidden">
+          <i class="fas fa-check-circle"></i> Booking received! We'll contact you soon.
+        </div>
+        <div id="bookingError" class="error-msg hidden"></div>
+        <div class="booking-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="bName">Full Name </label>
+              <input type="text" id="bName" placeholder="Your name" required />
+            </div>
+            <div class="form-group">
+              <label for="bPhone">Phone Number </label>
+              <input type="tel" id="bPhone" placeholder="10-digit mobile" maxlength="10" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="bEvent">Event Type </label>
+              <select id="bEvent">
+                <option value="">-- Select Event --</option>
+                <option>Wedding</option>
+                <option>Birthday Party</option>
+                <option>Housewarming</option>
+                <option>Corporate Event</option>
+                <option>Festival Celebration</option>
+                <option>Family Gathering</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="bDate">Event Date </label>
+              <input type="date" id="bDate" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bGuests">Number of Guests </label>
+            <input type="number" id="bGuests" min="40" placeholder="Minimum 40 guests required" required />
+          </div>
+          <div class="form-group">
+            <label for="bAddress">Event Address </label>
+            <input type="text" id="bAddress" placeholder="Full address of the event venue" required />
+          </div>
+          <div class="form-group">
+            <label for="bMenu">Menu </label>
+            <textarea id="bMenu" rows="3" placeholder="Enter the menu you want" required></textarea>
+            <p class="check">Please Check The Items Carefully</p>
+          </div>
+          <div class="form-group">
+            <label for="bMsg">Special Requirements</label>
+            <textarea id="bMsg" rows="3" placeholder="Instructions..."></textarea>
+          </div>
+          <button class="btn btn-primary full-w" id="submitBooking">
+            <i class="fas fa-calendar-check"></i> Confirm Booking Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <h3>కామాక్షి క్యాటరింగ్</h3>
+      <p class="footer-prop">Prop. Vikhyat | ప్రొ. విఖ్యాత్</p>
+      <p>Authentic Traditional Brahmin South Indian Catering Services, Hyderabad.</p>
+      <a href="tel:9866197455" class="footer-phone"><i class="fas fa-phone-alt"></i> 9866197455</a>
+    </div>
+    <div class="footer-links">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#contact">Book Now</a></li>
+      </ul>
+    </div>
+    <div class="footer-services">
+      <h4>What We Cater</h4>
+      <ul>
+        <li>Weddings &amp; Engagements</li>
+        <li>Birthday Parties</li>
+        <li>Housewarming Ceremonies</li>
+        <li>Corporate Lunches</li>
+        <li>Festival Celebrations</li>
+        <li>Banana Leaf Meals</li>
+      </ul>
+    </div>
+    <div class="footer-social">
+      <h4>Connect With Us</h4>
+      <div class="social-icons">
+        <a href="https://wa.me/919866197455" class="social-icon wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.instagram.com/kamakshicatershyderabad?utm_source=qr&igsh=NjdoeXNkamZjd2xp" class="social-icon ig"><i class="fab fa-instagram"></i></a>
+        <a href="tel:9866197455" class="social-icon ph"><i class="fas fa-phone"></i></a>
+      </div>
+      <p class="footer-addr"><i class="fas fa-map-marker-alt"></i> Nizampet, Hyderabad, Telangana.</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 కామాక్షి క్యాటరింగ్ | Kamakshi Catering. All rights reserved.</p>
+    <!-- <p>Designed with <span class="heart">♥</span> for authentic Telugu tradition.</p> -->
+     <div class="footer-signature">
+
+    <span class="footer-signature-label">
+        CRAFTED BY
+    </span>
+
+    <a href="https://www.linkedin.com/in/seetharam-konduru-2a4133271/"
+       target="_blank"
+       class="footer-signature-brand">
+
+        <span class="footer-sr-logo">
+            SR
+        </span>
+
+        <span class="footer-signature-name">
+            Seetha Ram
+        </span>
+
+    </a>
+
+</div>
+  </div>
+</footer>
+
+<button class="scroll-top" id="scrollTop" aria-label="Back to top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- Gallery Lightbox — built once here, populated/controlled by script.js -->
+<div class="lightbox-overlay" id="lightboxOverlay" role="dialog" aria-modal="true" aria-label="Gallery image viewer" aria-hidden="true">
+  <div class="lightbox-box" id="lightboxBox">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close">
+      <i class="fas fa-times"></i>
+    </button>
+    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous image">
+      <i class="fas fa-chevron-left"></i>
+    </button>
+    <div class="lightbox-img-wrap">
+      <img src="" alt="" id="lightboxImg" class="lightbox-img"/>
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next image">
+      <i class="fas fa-chevron-right"></i>
+    </button>
+    <span class="lightbox-counter" id="lightboxCounter">1 / 1</span>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<script>
+/* ── Dynamic Menu ── */
+(function loadMenu() {
+  fetch('/menu')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var masonry = document.getElementById('menuMasonry');
+      var loading = document.getElementById('menuLoading');
+      if (loading) loading.remove();
+
+      if (!data.success || !data.menu || Object.keys(data.menu).length === 0) {
+        masonry.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#bbb;padding:40px;">No menu items yet.</p>';
+        return;
+      }
+
+      Object.keys(data.menu).forEach(function(category) {
+        var items = data.menu[category];
+
+        /* Split "తెలుగు / English" into two lines if separator exists */
+        var parts  = category.split('/');
+        var telPart = parts[0] ? parts[0].trim() : category;
+        var engPart = parts[1] ? parts[1].trim() : '';
+
+        var card = document.createElement('div');
+        card.className = 'mcard';
+
+        var titleHtml = '<div class="mcard-title">' + escHtml(telPart) + '</div>';
+        var subHtml   = engPart ? '<div class="mcard-sub">' + escHtml(engPart) + '</div>' : '';
+
+        var listItems = items.map(function(item) {
+          var safeName = escHtml(item.name);
+          return '<li><label><input type="checkbox" class="menu-item-cb" value="' + safeName + '"/> ' + safeName + '</label></li>';
+        }).join('');
+
+        card.innerHTML =
+          titleHtml +
+          subHtml +
+          '<div class="mcard-line"></div>' +
+          '<ul class="menu-checklist">' + listItems + '</ul>';
+
+        masonry.appendChild(card);
+      });
+
+      /* Re-attach checkbox listeners so counter updates */
+      attachMenuCounterListeners();
+    })
+    .catch(function() {
+      var loading = document.getElementById('menuLoading');
+      if (loading) loading.innerHTML = '<p style="color:#bbb;padding:20px;">Could not load menu. Please refresh.</p>';
+    });
+})();
+
+function escHtml(str) {
+  var d = document.createElement('div');
+  d.appendChild(document.createTextNode(str));
+  return d.innerHTML;
+}
+
+function attachMenuCounterListeners() {
+  document.querySelectorAll('.menu-item-cb').forEach(function(cb) {
+    cb.addEventListener('change', updateMenuCount);
+  });
+}
+
+function updateMenuCount() {
+  var checked = document.querySelectorAll('.menu-item-cb:checked').length;
+  var el = document.getElementById('menuSelectedCount');
+  if (el) el.textContent = checked;
+}
+</script>
+
+</body>
+</html>

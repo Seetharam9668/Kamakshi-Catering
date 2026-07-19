@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard — Kamakshi Catering</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+
+  <style>
+  /* ─── Menu Management Tab Styles ─────────────────────────────────────── */
+  .menu-mgmt-layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  /* Tablet + Mobile: stack vertically */
+  @media (max-width: 900px) {
+    .menu-mgmt-layout {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+  }
+
+  /* Add-item form card */
+  .menu-add-card {
+    background: #fff;
+    border: 1.5px solid #fde8d0;
+    border-radius: 18px;
+    padding: 28px 24px;
+    box-shadow: 0 4px 18px rgba(230,81,0,0.07);
+    position: sticky;
+    top: 90px;
+  }
+  /* Disable sticky on mobile/tablet — it fights the stacked layout */
+  @media (max-width: 900px) {
+    .menu-add-card { position: static; }
+  }
+
+  .menu-add-card h3 {
+    font-family: 'Playfair Display', serif;
+    color: #e65100;
+    font-size: 1.15rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .menu-field {
+    margin-bottom: 16px;
+  }
+  .menu-field label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .menu-field label .req {
+  color: #e53935;
+  margin-left: 2px;
+}
+  .menu-field input,
+  .menu-field select {
+    width: 100%;
+    padding: 11px 20px;
+    border: 1.5px solid #fde0c8;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    background: #fdf9f6;
+    color: #222;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+  }
+  .menu-field input:focus,
+  .menu-field select:focus {
+    outline: none;
+    border-color: #e65100;
+    box-shadow: 0 0 0 3px rgba(230,81,0,0.12);
+    background: #fff;
+  }
+  .menu-hint {
+    font-size: 0.78rem;
+    color: #aaa;
+    margin-top: 5px;
+  }
+  .menu-submit-btn {
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, #e65100, #f59e0b);
+    color: #fff;
+    border: none;
+    border-radius: 14px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: opacity 0.2s, transform 0.15s;
+    margin-top: 6px;
+  }
+  .menu-submit-btn:hover  { opacity: 0.92; transform: translateY(-1px); }
+  .menu-submit-btn:active { transform: translateY(0); }
+  .menu-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+  /* ─── Category: searchable custom dropdown (Phase 5) ──────────────────
+     Matches .menu-field input exactly: same font, radius, shadow, orange theme. */
+  .kc-cat-dropdown {
+    position: relative;
+  }
+  .kc-cat-dropdown #menuItemCategory {
+    cursor: pointer;
+    padding-right: 40px; /* room for the arrow */
+  }
+  .kc-cat-arrow {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 42px;
+    height: 100%;
+    background: none;
+    border: none;
+    color: #e65100;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    transition: transform 0.2s ease;
+  }
+  .kc-cat-dropdown.open .kc-cat-arrow { transform: rotate(180deg); }
+
+  .kc-cat-popover {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1.5px solid #fde0c8;
+    border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(230,81,0,0.14), 0 4px 12px rgba(0,0,0,0.08);
+    z-index: 40;
+    overflow: hidden;
+    animation: kcCatPopIn 0.18s ease both;
+  }
+  @keyframes kcCatPopIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .kc-cat-search-wrap {
+    position: relative;
+    padding: 10px;
+    border-bottom: 1px solid #fde8d8;
+  }
+  .kc-cat-search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #c9793a;
+    font-size: 0.82rem;
+    pointer-events: none;
+  }
+  .kc-cat-search {
+    width: 100%;
+    padding: 10px 14px 10px 42px;
+    border: 1.5px solid #fde0c8;
+    border-radius: 10px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    background: #fdf9f6;
+    color: #222;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .kc-cat-search:focus {
+    outline: none;
+    border-color: #e65100;
+    box-shadow: 0 0 0 3px rgba(230,81,0,0.12);
+    background: #fff;
+  }
+  .kc-cat-listbox {
+    list-style: none;
+    margin: 0;
+    padding: 6px;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+  .kc-cat-option {
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    color: #333;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .kc-cat-option:hover,
+  .kc-cat-option.active {
+    background: #fff4ee;
+    color: #e65100;
+  }
+  .kc-cat-option-new {
+    color: #e65100;
+    font-weight: 700;
+    border-top: 1px dashed #fde0c8;
+    margin-top: 4px;
+    padding-top: 12px;
+  }
+  .kc-cat-option-new i { margin-right: 6px; }
+  .kc-cat-option-new:hover,
+  .kc-cat-option-new.active { background: #fff0e2; }
+  .kc-cat-option-empty {
+    color: #bbb;
+    cursor: default;
+    text-align: center;
+  }
+  .kc-cat-option-empty:hover { background: none; }
+
+  /* Mobile: full-width, slightly taller tap targets */
+  @media (max-width: 600px) {
+    .kc-cat-popover { left: 0; right: 0; }
+    .kc-cat-option { padding: 12px; font-size: 0.92rem; }
+  }
+
+  /* Category accordion on the right */
+  .menu-categories-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .menu-cat-block {
+    background: #fff;
+    border: 1.5px solid #f2e3d5;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+  .menu-cat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #fff4ee, #fff8f4);
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid #fde8d8;
+  }
+  .menu-cat-header:hover { background: #ffe9d8; }
+  .menu-cat-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: #e65100;
+    font-weight: 700;
+    /* Prevent long bilingual category names overflowing on small screens */
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 10px;
+  }
+  .menu-cat-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .menu-cat-count {
+    background: #e65100;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+  }
+  .menu-cat-chevron {
+    color: #e65100;
+    font-size: 0.85rem;
+    transition: transform 0.25s;
+  }
+  .menu-cat-block.open .menu-cat-chevron { transform: rotate(180deg); }
+  .menu-cat-body {
+    display: none;
+    padding: 8px 12px 12px;
+  }
+  .menu-cat-block.open .menu-cat-body { display: block; }
+
+  /* Individual item rows */
+  .menu-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 10px;
+    border-radius: 10px;
+    transition: background 0.15s;
+    gap: 8px;
+    /* Ensure the row never overflows its container */
+    min-width: 0;
+  }
+  .menu-item-row:hover { background: #fff4ee; }
+  .menu-item-name {
+    font-size: 0.9rem;
+    color: #333;
+    flex: 1;
+    min-width: 0;          /* critical: lets text truncate instead of pushing actions offscreen */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 6px;
+  }
+  /* On very small screens allow the name to wrap instead of hiding */
+  @media (max-width: 480px) {
+    .menu-item-name {
+      white-space: normal;
+      overflow: visible;
+      text-overflow: unset;
+      font-size: 0.82rem;
+    }
+  }
+  .menu-item-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;      /* never squash the toggle + delete button */
+  }
+
+  /* Toggle active/inactive */
+  .toggle-switch {
+    position: relative;
+    width: 42px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+  .toggle-switch input { display: none; }
+  .toggle-slider {
+    position: absolute;
+    inset: 0;
+    background: #ddd;
+    border-radius: 34px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    top: 3px; left: 3px;
+    transition: transform 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  }
+  .toggle-switch input:checked + .toggle-slider { background: #e65100; }
+  .toggle-switch input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+  /* Delete button */
+  .menu-del-btn {
+    background: #fff1f1;
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+    border-radius: 8px;
+    padding: 5px 9px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .menu-del-btn:hover { background: #fee2e2; }
+
+  .menu-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: #bbb;
+  }
+  .menu-empty .empty-icon { font-size: 2.5rem; margin-bottom: 10px; }
+
+  /* Inactive item styling */
+  .menu-item-row.inactive .menu-item-name {
+    text-decoration: line-through;
+    color: #bbb;
+  }
+
+  /* ─── Booking Sub-tabs & Search ────────────────────────────────────── */
+  .bookings-search-wrap {
+    margin-bottom: 18px;
+  }
+  .bookings-search-inner {
+    position: relative;
+    max-width: 480px;
+  }
+  .bookings-search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #c9793a;
+    font-size: 0.9rem;
+    pointer-events: none;
+  }
+  .bookings-search-input {
+    width: 100%;
+    padding: 12px 44px 12px 42px;
+    border: 1.5px solid #fde0c8;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    background: #fdf9f6;
+    color: #222;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+  }
+  .bookings-search-input:focus {
+    outline: none;
+    border-color: #e65100;
+    box-shadow: 0 0 0 3px rgba(230,81,0,0.12);
+    background: #fff;
+  }
+  .bookings-search-clear {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 4px 6px;
+    border-radius: 50%;
+    transition: color 0.2s, background 0.2s;
+  }
+  .bookings-search-clear:hover { color: #e65100; background: #fff0e8; }
+
+  .booking-subtabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f2e3d5;
+    padding-bottom: 0;
+  }
+  .booking-subtab {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 22px 12px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .booking-subtab:hover { color: #e65100; }
+  .booking-subtab.active {
+    color: #e65100;
+    border-bottom-color: #e65100;
+  }
+  .subtab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 7px;
+    background: #e65100;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    border-radius: 20px;
+  }
+  .subtab-count--done {
+    background: #16a34a;
+  }
+
+  .booking-subpanel { display: none; }
+  .booking-subpanel.active { display: block; }
+
+  /* In search mode, both panels show — add a divider between them */
+  .search-mode .booking-subpanel.active + .booking-subpanel.active {
+    border-top: 2px dashed #fde0c8;
+    margin-top: 8px;
+    padding-top: 16px;
+  }
+  /* In search mode, suppress the pending-empty gap so completed shows right below notice */
+  .search-mode #subpanel-pending .empty,
+  .search-mode #subpanel-pending .bookings-table-wrap:empty {
+    display: none !important;
+  }
+  /* Search-mode section label above each result group */
+  .search-section-label {
+    display: none;
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #999;
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }
+  .search-mode .search-section-label { display: block; }
+  .search-section-label.label--pending { color: #e65100; }
+  .search-section-label.label--done    { color: #16a34a; }
+
+  .search-result-notice {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff8f0;
+    border: 1px solid #fde0c8;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 0.88rem;
+    color: #e65100;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .search-result-notice span { font-weight: 800; }
+  .search-result-notice button {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: #e65100;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: underline;
+    font-family: 'Nunito', sans-serif;
+  }
+  .search-no-results { margin-top: 20px; }
+
+  /* Highlight matched search rows */
+  tr.search-highlight td { background: #fffbeb !important; }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a href="/" class="nav-brand">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Kamakshi Catering" class="nav-logo" />
+  </a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/#home">Home</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/#menu">Menu</a></li>
+    <li><a href="/#gallery">Gallery</a></li>
+    <li><a href="/#reviews">Reviews</a></li>
+    <li><a href="/#contact" class="nav-cta">Book Now</a></li>
+    <li><span class="nav-admin-badge"><i class="fas fa-shield-alt"></i> Admin Panel</span></li>
+    <li><a href="/admin/logout" class="nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+  </ul>
+</nav>
+
+<!-- Main -->
+<main>
+  <h1 class="page-title">Admin <span>Dashboard</span></h1>
+  <p class="page-sub">Manage bookings, reviews, gallery and menu.</p>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-chip">
+      <div class="icon"><i class="fas fa-calendar-check"></i></div>
+      <div>
+        <div class="val">{{ bookings | length }}</div>
+        <div class="lbl">Total Bookings</div>
+      </div>
+    </div>
+    <div class="stat-chip">
+      <div class="icon"><i class="fas fa-star"></i></div>
+      <div>
+        <div class="val">{{ reviews | length }}</div>
+        <div class="lbl">Total Reviews</div>
+      </div>
+    </div>
+    <div class="stat-chip">
+      <div class="icon"><i class="fas fa-utensils"></i></div>
+      <div>
+        <div class="val">{{ menu_items | length }}</div>
+        <div class="lbl">Menu Items</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="bookings">
+      <i class="fas fa-calendar-alt" style="margin-right:6px;"></i>Bookings
+    </button>
+    <button class="tab-btn" data-tab="reviews">
+      <i class="fas fa-star" style="margin-right:6px;"></i>Reviews
+    </button>
+    <button class="tab-btn" data-tab="gallery">
+      <i class="fas fa-images" style="margin-right:6px;"></i>Gallery
+    </button>
+    <button class="tab-btn" data-tab="menu">
+      <i class="fas fa-utensils" style="margin-right:6px;"></i>Menu
+    </button>
+  </div>
+
+  <!-- ── Bookings Panel ─────────────────────────────────────────────────── -->
+  <div class="tab-panel active" id="tab-bookings">
+
+    <!-- Search Bar -->
+    <div class="bookings-search-wrap">
+      <div class="bookings-search-inner">
+        <i class="fas fa-search bookings-search-icon"></i>
+        <input
+          type="text"
+          id="bookingSearchInput"
+          class="bookings-search-input"
+          placeholder="Search by name, phone, or event..."
+          autocomplete="off"
+          maxlength="100"
+        />
+        <button class="bookings-search-clear" id="bookingSearchClear" title="Clear search" style="display:none;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sub-tabs -->
+    <div class="booking-subtabs" id="bookingSubtabs">
+      <button class="booking-subtab active" data-subtab="pending">
+        <i class="fas fa-clock"></i>
+        Pending
+        <span class="subtab-count" id="pendingCount">{{ pending_bookings | length }}</span>
+      </button>
+      <button class="booking-subtab" data-subtab="completed">
+        <i class="fas fa-check-circle"></i>
+        Completed
+        <span class="subtab-count subtab-count--done" id="completedCount">{{ completed_bookings | length }}</span>
+      </button>
+    </div>
+
+    <!-- Search result notice -->
+    <div class="search-result-notice" id="searchResultNotice" style="display:none;">
+      <i class="fas fa-search"></i>
+      Showing search results for "<span id="searchQueryDisplay"></span>"
+      <button onclick="clearBookingSearch()">Clear</button>
+    </div>
+
+    <!-- ── Pending Sub-panel ── -->
+    <div class="booking-subpanel active" id="subpanel-pending">
+      <div class="search-section-label label--pending"><i class="fas fa-clock"></i> &nbsp;Pending Bookings</div>
+      {% if pending_bookings %}
+      <div class="bookings-table-wrap">
+        <table id="pendingTable">
+          <colgroup>
+            <col class="col-sno"/>
+            <col class="col-customer"/>
+            <col class="col-phone"/>
+            <col class="col-event"/>
+            <col class="col-date"/>
+            <col class="col-guests"/>
+            <col class="col-address"/>
+            <col class="col-menu"/>
+            <col class="col-msg"/>
+            <col class="col-submit"/>
+            <col class="col-status"/>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Customer</th>
+              <th>Phone</th>
+              <th>Event</th>
+              <th>Event Date</th>
+              <th>Guests</th>
+              <th>Address</th>
+              <th>Menu</th>
+              <th>Instructions</th>
+              <th>Submitted</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="pendingTableBody">
+            {% for b in pending_bookings %}
+            <tr>
+              <td class="sno-cell">{{ loop.index }}</td>
+              <td>
+                <div style="font-weight:700;color:#1a1a1a;">{{ b.full_name }}</div>
+              </td>
+              <td>
+                <a href="tel:{{ b.phone }}" class="phone-link">
+                  <i class="fas fa-phone-alt"></i> {{ b.phone }}
+                </a>
+              </td>
+              <td><span class="event-badge">{{ b.event_type }}</span></td>
+              <td class="date-cell">{{ b.event_date }}</td>
+              <td><span class="guests-chip">{{ b.guests or 0 }}</span></td>
+              <td class="addr-cell">{{ b.address or '—' }}</td>
+              <td class="menu-cell">{{ b.menu or '—' }}</td>
+              <td class="msg-cell">{{ b.message or '—' }}</td>
+              <td class="date-cell submitted-cell">{{ b.created_at }}</td>
+              <td>
+                <button class="done-btn" data-id="{{ b.id }}" onclick="markDone(this)">
+                  <i class="fas fa-check-circle"></i> Mark Done
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="empty" id="pendingEmpty">
+        <div class="empty-icon">📋</div>
+        <p>No pending bookings.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- ── Completed Sub-panel ── -->
+    <div class="booking-subpanel" id="subpanel-completed">
+      <div class="search-section-label label--done"><i class="fas fa-check-circle"></i> &nbsp;Completed Bookings</div>
+      {% if completed_bookings %}
+      <div class="bookings-table-wrap">
+        <table id="completedTable">
+          <colgroup>
+            <col class="col-sno"/>
+            <col class="col-customer"/>
+            <col class="col-phone"/>
+            <col class="col-event"/>
+            <col class="col-date"/>
+            <col class="col-guests"/>
+            <col class="col-address"/>
+            <col class="col-menu"/>
+            <col class="col-msg"/>
+            <col class="col-submit"/>
+            <col class="col-status"/>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>S.No</th>
+              <th>Customer</th>
+              <th>Phone</th>
+              <th>Event</th>
+              <th>Event Date</th>
+              <th>Guests</th>
+              <th>Address</th>
+              <th>Menu</th>
+              <th>Instructions</th>
+              <th>Submitted</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="completedTableBody">
+            {% for b in completed_bookings %}
+            <tr>
+              <td class="sno-cell">{{ loop.index }}</td>
+              <td>
+                <div style="font-weight:700;color:#1a1a1a;">{{ b.full_name }}</div>
+              </td>
+              <td>
+                <a href="tel:{{ b.phone }}" class="phone-link">
+                  <i class="fas fa-phone-alt"></i> {{ b.phone }}
+                </a>
+              </td>
+              <td><span class="event-badge">{{ b.event_type }}</span></td>
+              <td class="date-cell">{{ b.event_date }}</td>
+              <td><span class="guests-chip">{{ b.guests or 0 }}</span></td>
+              <td class="addr-cell">{{ b.address or '—' }}</td>
+              <td class="menu-cell">{{ b.menu or '—' }}</td>
+              <td class="msg-cell">{{ b.message or '—' }}</td>
+              <td class="date-cell submitted-cell">{{ b.created_at }}</td>
+              <td>
+                <span class="done-badge">
+                  <i class="fas fa-check-circle"></i> Order Done
+                </span>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="empty" id="completedEmpty">
+        <div class="empty-icon">✅</div>
+        <p>No completed bookings yet.</p>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- No results message (shown when search yields nothing) -->
+    <div class="empty search-no-results" id="searchNoResults" style="display:none;">
+      <div class="empty-icon">🔍</div>
+      <p>No bookings match your search.</p>
+    </div>
+
+  </div>
+
+  <!-- ── Reviews Panel ──────────────────────────────────────────────────── -->
+  <div class="tab-panel" id="tab-reviews">
+    {% if reviews %}
+    <div class="reviews-grid">
+      {% for r in reviews %}
+      <div class="review-card" id="card-{{ r.id }}">
+        <div class="top">
+          <div>
+            <div class="name">{{ r.customer_name }}</div>
+            <div class="date"><i class="fas fa-calendar-alt" style="margin-right:4px;color:#ddd;"></i>{{ r.created_at }}</div>
+          </div>
+          <button class="delete-btn" data-id="{{ r.id }}"><i class="fas fa-trash-alt"></i> Delete</button>
+        </div>
+        <div class="stars">
+          {% for i in range(r.rating) %}⭐{% endfor %}
+          {% for i in range(5 - r.rating) %}☆{% endfor %}
+          <span class="rating-num">({{ r.rating }}/5)</span>
+        </div>
+        <div class="review-text">{{ r.review_message }}</div>
+        {% if r.photo_url %}
+          <img class="review-photo" src="{{ r.photo_url }}" alt="Review photo" />
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">
+      <div class="empty-icon">📭</div>
+      <p>No reviews yet.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- ── Gallery Panel ──────────────────────────────────────────────────── -->
+  <div class="tab-panel" id="tab-gallery">
+
+    <div class="gal-upload-box">
+      <h3 class="gal-upload-title"><i class="fas fa-cloud-upload-alt"></i> Add Gallery Photo</h3>
+      <div class="gal-upload-row">
+        <label class="gal-file-label" id="galFileLabel">
+          <i class="fas fa-image"></i> Choose Photo
+          <input type="file" id="galPhotoInput" accept="image/jpeg,image/png,image/webp,image/gif" style="display:none" onchange="previewGalPhoto(this)"/>
+        </label>
+        <input type="text" id="galCaption" class="gal-caption-input" placeholder="Caption (e.g. Banana Leaf Spread)" maxlength="200"/>
+        <button class="gal-upload-btn" onclick="uploadGalleryPhoto()">
+          <i class="fas fa-plus-circle"></i> Add Photo
+        </button>
+      </div>
+      <p class="gal-hint">JPG / PNG / WEBP / GIF · max 5 MB</p>
+
+      <div class="gal-preview-card" id="galPreviewCard">
+        <img id="galPreview" class="gal-preview-thumb-lg" alt="preview"/>
+        <div class="gal-preview-meta">
+          <span class="gal-preview-filename" id="galPreviewFilename"></span>
+          <span class="gal-preview-details" id="galPreviewDetails"></span>
+        </div>
+        <button type="button" class="gal-preview-remove" id="galPreviewRemove" onclick="removeGalleryPreview()" title="Remove selected image" aria-label="Remove selected image">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="gal-order-bar">
+      <button class="gal-save-order-btn" id="galSaveOrderBtn" onclick="saveGalleryOrder()" disabled>
+        <i class="fas fa-save"></i> Save Gallery Order
+      </button>
+    </div>
+
+    <div class="admin-gal-grid" id="adminGalGrid">
+      {% if gallery_items %}
+        {% for g in gallery_items %}
+        <div class="admin-gal-card" id="gal-card-{{ g.id }}">
+          <div class="admin-gal-img-wrap">
+            <img src="{{ g.photo_url }}" class="admin-gal-img"/>
+          </div>
+          <div class="admin-gal-footer">
+            <span class="admin-gal-caption">{{ g.caption or "(no caption)" }}</span>
+            {% if g.is_static %}
+              <span class="gal-static-badge"><i class="fas fa-lock"></i> Default</span>
+            {% endif %}
+            <button class="delete-btn gal-del-btn" data-id="{{ g.id }}">
+              <i class="fas fa-trash-alt"></i> Delete
+            </button>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="empty" id="galEmpty">
+          <div class="empty-icon">📷</div>
+          <p>No gallery images yet.</p>
+          <p>Upload your first gallery photo.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- ── Menu Management Panel ──────────────────────────────────────────── -->
+  <div class="tab-panel" id="tab-menu">
+    <div class="menu-mgmt-layout">
+
+      <!-- Left: Add new item form -->
+      <div class="menu-add-card">
+        <h3><i class="fas fa-plus-circle"></i> Add Menu Item</h3>
+
+        <div class="menu-field">
+          <label for="menuItemName">Item Name <span class="req">*</span></label>
+          <input
+            type="text"
+            id="menuItemName"
+            placeholder="e.g. గుత్తి వంకాయ / Stuffed Brinjal"
+            maxlength="200"
+            autocomplete="off"
+          />
+          <p class="menu-hint">Tip: write both Telugu &amp; English for best results.</p>
+        </div>
+
+        <div class="menu-field">
+          <label for="menuItemCategory">Category <span class="req">*</span></label>
+          <div class="kc-cat-dropdown" id="kcCatDropdown">
+            <input
+              type="text"
+              id="menuItemCategory"
+              placeholder="Select or add a category"
+              maxlength="100"
+              readonly
+              autocomplete="off"
+              role="combobox"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="kcCatPopover"
+            />
+            <button type="button" class="kc-cat-arrow" id="kcCatArrowBtn" tabindex="-1" aria-label="Open category list">
+              <i class="fas fa-chevron-down"></i>
+            </button>
+
+            <div class="kc-cat-popover" id="kcCatPopover" hidden>
+              <div class="kc-cat-search-wrap">
+                <i class="fas fa-search kc-cat-search-icon"></i>
+                <input
+                  type="text"
+                  class="kc-cat-search"
+                  id="kcCatSearchInput"
+                  placeholder="Search categories…"
+                  autocomplete="off"
+                  aria-label="Search categories"
+                />
+              </div>
+              <ul class="kc-cat-listbox" id="kcCatListbox" role="listbox" aria-label="Categories"></ul>
+            </div>
+          </div>
+          <!-- Hidden data source only — the custom dropdown above reads from this list.
+               Populated server-side and kept in sync by adminAddMenuItem() when a brand-new
+               category is created, exactly as before. -->
+          <datalist id="categoryDatalist">
+            {% set seen = [] %}
+            {% for item in menu_items %}
+              {% if item.category not in seen %}
+                <option value="{{ item.category }}">
+                {% if seen.append(item.category) %}{% endif %}
+              {% endif %}
+            {% endfor %}
+          </datalist>
+          <p class="menu-hint">Search existing categories, or use "Add New Category" for a new one.</p>
+        </div>
+
+        <button class="menu-submit-btn" id="addMenuItemBtn" onclick="adminAddMenuItem()">
+          <i class="fas fa-plus-circle"></i> Add to Menu
+        </button>
+      </div>
+
+      <!-- Right: Existing items grouped by category -->
+      <div class="menu-categories-wrap" id="menuCategoriesWrap">
+        {% if menu_items %}
+          {% set categories = [] %}
+          {% for item in menu_items %}
+            {% if item.category not in categories %}
+              {% if categories.append(item.category) %}{% endif %}
+            {% endif %}
+          {% endfor %}
+
+          {% for cat in categories %}
+          <div class="menu-cat-block open" id="menu-cat-{{ loop.index }}">
+            <div class="menu-cat-header" onclick="toggleMenuCat(this)">
+              <span class="menu-cat-title">{{ cat }}</span>
+              <span class="menu-cat-meta">
+                <span class="menu-cat-count">
+                  {{ menu_items | selectattr('category', 'equalto', cat) | list | length }}
+                </span>
+                <i class="fas fa-chevron-down menu-cat-chevron"></i>
+              </span>
+            </div>
+            <div class="menu-cat-body">
+              {% for item in menu_items if item.category == cat %}
+              <div class="menu-item-row {% if not item.is_active %}inactive{% endif %}" id="menu-row-{{ item.id }}">
+                <span class="menu-item-name">{{ item.name }}</span>
+                <div class="menu-item-actions">
+                  <!-- Toggle active/inactive -->
+                  <label class="toggle-switch" title="{% if item.is_active %}Active — click to hide{% else %}Hidden — click to show{% endif %}">
+                    <input
+                      type="checkbox"
+                      {% if item.is_active %}checked{% endif %}
+                      data-item-id="{{ item.id }}"
+                      onchange="toggleMenuItemActive(this.dataset.itemId, this.checked)"
+                    />
+                    <span class="toggle-slider"></span>
+                  </label>
+                  <!-- Delete -->
+                  <button class="menu-del-btn" data-item-id="{{ item.id }}" onclick="adminDeleteMenuItem(this.dataset.itemId, this)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% endfor %}
+        {% else %}
+        <div class="menu-empty" id="menuEmpty">
+          <div class="empty-icon">🍽️</div>
+          <p>No menu items yet. Add your first item on the left!</p>
+        </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+  <!-- end tab-menu -->
+
+</main>
+
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+<script src="{{ url_for('static', filename='js/admin.js', v='4') }}"></script>
+
+</body>
+</html>

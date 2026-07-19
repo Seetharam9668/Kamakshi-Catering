@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Login</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito';background:#eef3ff;}
+
+/* NAVBAR */
+.navbar{
+  height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  background:#fff;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 16px rgba(0,0,0,0.08);
+}
+
+.nav-logo{height:45px;}
+
+.nav-links{
+  display:flex;
+  gap:20px;
+  list-style:none;
+  margin-left:auto;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#444;
+  font-weight:600;
+}
+
+.nav-cta{
+  background:#e91e8c;
+  color:#fff !important;
+  padding:8px 16px;
+  border-radius:20px;
+}
+
+.nav-admin{
+  border:1px solid #ddd;
+  padding:6px 12px;
+  border-radius:20px;
+}
+
+/* ── HAMBURGER BUTTON ── */
+.hamburger{
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:5px;
+  width:40px;
+  height:40px;
+  background:none;
+  border:none;
+  cursor:pointer;
+  padding:4px;
+  flex-shrink:0;
+}
+.hamburger span{
+  display:block;
+  width:24px;
+  height:2.5px;
+  background:#e65100;
+  border-radius:3px;
+  transition:transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+  transform-origin:center;
+}
+/* Animated X when open */
+.hamburger.open span:nth-child(1){ transform:translateY(7.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2){ opacity:0; width:0; }
+.hamburger.open span:nth-child(3){ transform:translateY(-7.5px) rotate(-45deg); }
+
+/* ── MOBILE RESPONSIVE ── */
+@media(max-width:768px){
+  .navbar{ padding:0 20px; }
+
+  .hamburger{ display:flex; }
+
+  .nav-links{
+    display:none;
+    position:absolute;
+    top:72px;
+    left:0; right:0;
+    background:#fff;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:0;
+    padding:16px 0 20px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.12);
+    border-top:2px solid #f0e8e0;
+    z-index:999;
+    animation:slideDown 0.25s ease forwards;
+  }
+  @keyframes slideDown{
+    from{ opacity:0; transform:translateY(-8px); }
+    to{   opacity:1; transform:translateY(0); }
+  }
+  .nav-links.open{ display:flex; }
+
+  .nav-links li{
+    width:100%;
+    border-bottom:1px solid #f9f3ef;
+  }
+  .nav-links li:last-child{ border-bottom:none; }
+
+  /* Generic links reset — exclude colored buttons */
+  .nav-links a:not(.nav-cta):not(.nav-admin){
+    display:block;
+    width:100%;
+    padding:13px 24px !important;
+    font-size:0.97rem;
+    border-radius:0 !important;
+    background:transparent !important;
+    color:#333 !important;
+    font-weight:600;
+    text-decoration:none;
+  }
+  .nav-links a:not(.nav-cta):not(.nav-admin):hover{
+    background:#fff4ee !important;
+    color:#e65100 !important;
+  }
+
+  /* Book Now — pink pill */
+  .nav-links li:has(.nav-cta){
+    border-bottom:none;
+    padding:8px 16px 4px;
+  }
+  .navbar .nav-links .nav-cta{
+    display:block !important;
+    width:100% !important;
+    background:#e91e8c !important;
+    color:#fff !important;
+    padding:13px 20px !important;
+    border-radius:25px !important;
+    text-align:center !important;
+    font-weight:700 !important;
+    font-size:1rem !important;
+    margin:0 !important;
+    box-sizing:border-box !important;
+  }
+  .navbar .nav-links .nav-cta:hover{ background:#c2185b !important; }
+
+  /* Admin — orange outlined pill */
+  .nav-links li:has(.nav-admin){
+    border-bottom:none;
+    padding:4px 16px 10px;
+  }
+  .navbar .nav-links .nav-admin{
+    display:block !important;
+    width:100% !important;
+    background:#fff4ee !important;
+    color:#e65100 !important;
+    padding:13px 20px !important;
+    border-radius:20px !important;
+    text-align:center !important;
+    font-weight:700 !important;
+    font-size:1rem !important;
+    margin:0 !important;
+    border:1.5px solid #f5c8a0 !important;
+    box-sizing:border-box !important;
+  }
+  .navbar .nav-links .nav-admin:hover{ background:#ffe0cc !important; }
+}
+
+/* PAGE */
+.page-wrap{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:calc(100vh - 72px);
+}
+
+/* CARD */
+.card{
+  background:#fff;
+  padding:40px;
+  border-radius:18px;
+  width:90%;
+  max-width:420px;
+  text-align:center;
+  box-shadow:0 12px 40px rgba(0,0,0,0.08);
+}
+
+.card h1{
+  font-family:'Playfair Display';
+  color:#e65100;
+}
+
+.card p{color:#777;}
+
+/* INPUT WRAPPER */
+.input-wrap {
+  position: relative;
+  margin: 25px 0;
+}
+
+/* LEFT LOCK ICON */
+.input-wrap i.fa-lock {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #bbb;
+  font-size: 15px;
+}
+
+/* INPUT FIELD */
+.input-wrap input {
+  width: 100%;
+  padding: 12px 50px 12px 42px;
+  border: 2px solid #f0d7c8;
+  border-radius: 16px;
+  background: #faf7f5;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+/* FOCUS */
+.input-wrap input:focus {
+  border-color: #e65100;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(230, 81, 0, 0.15);
+  outline: none;
+}
+
+/* EYE ICON */
+.eye-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff4ee;
+  border: 1px solid #ffd6bf;
+  color: #e65100;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.eye-toggle:hover {
+  background: #ffe0cc;
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* BUTTON */
+button[type="submit"]{
+  width:100%;
+  padding:13px;
+  background:#e65100;
+  color:#fff;
+  border:none;
+  border-radius:12px;
+  font-weight:600;
+  cursor:pointer;
+  font-size:1rem;
+  transition:background 0.2s;
+}
+button[type="submit"]:hover{ background:#bf360c; }
+
+/* ERROR */
+.error{
+  background:#ffe6e6;
+  color:#c62828;
+  padding:10px;
+  border-radius:8px;
+  margin-bottom:10px;
+  display:none;
+  font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <img src="{{ url_for('static', filename='images/logo.png') }}" class="nav-logo">
+
+  <button class="hamburger" id="navHamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#about">About</a></li>
+    <li><a href="/#services">Services</a></li>
+    <li><a href="/#menu">Menu</a></li>
+    <li><a href="/#gallery">Gallery</a></li>
+    <li><a href="/#reviews">Reviews</a></li>
+    <li><a href="/#contact" class="nav-cta">Book Now</a></li>
+    <li><a href="/admin" class="nav-admin">Admin</a></li>
+  </ul>
+</nav>
+
+<!-- LOGIN -->
+<div class="page-wrap">
+<div class="card">
+
+  <h1>Kamakshi Catering</h1>
+  <p>Admin Panel — Owner Only</p>
+
+  <!-- ERROR BOX -->
+  <div class="error" id="errorMsg"></div>
+
+  <!-- SERVER ERROR -->
+  {% if error %}
+  <script>
+  window.serverError = "{{ error }}";
+  </script>
+  {% endif %}
+
+  <form method="POST" action="/admin" id="loginForm" novalidate>
+
+    <div class="input-wrap">
+      <i class="fas fa-lock"></i>
+      <input type="password" name="password" id="adminPwd" placeholder="Enter password">
+      <span class="eye-toggle" onclick="togglePwd()">
+        <i class="fas fa-eye" id="eyeIcon"></i>
+      </span>
+    </div>
+
+    <button type="submit">Login</button>
+
+  </form>
+
+</div>
+</div>
+
+<script>
+
+/* ── HAMBURGER MENU ── */
+(function() {
+  var hamburger = document.getElementById('navHamburger');
+  var navLinks  = document.getElementById('navLinks');
+  if (!hamburger || !navLinks) return;
+
+  hamburger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var isOpen = navLinks.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+  });
+
+  /* Close on link click */
+  navLinks.addEventListener('click', function(e) {
+    if (e.target.tagName === 'A' || e.target.closest('a')) {
+      navLinks.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  /* Close on outside click */
+  document.addEventListener('click', function(e) {
+    if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+      navLinks.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  /* Close on Escape */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      navLinks.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();
+
+/* ── PASSWORD TOGGLE ── */
+function togglePwd(){
+  var input = document.getElementById("adminPwd");
+  var icon  = document.getElementById("eyeIcon");
+  if(input.type === "password"){
+    input.type = "text";
+    icon.classList.replace("fa-eye","fa-eye-slash");
+  } else {
+    input.type = "password";
+    icon.classList.replace("fa-eye-slash","fa-eye");
+  }
+}
+
+/* ── FORM VALIDATION ── */
+const form     = document.getElementById("loginForm");
+const pwd      = document.getElementById("adminPwd");
+const errorBox = document.getElementById("errorMsg");
+
+if(window.serverError){
+  errorBox.style.display = "block";
+  errorBox.innerText = window.serverError;
+}
+
+form.addEventListener("submit", function(e){
+  if(pwd.value.trim() === ""){
+    e.preventDefault();
+    errorBox.style.display = "block";
+    errorBox.innerText = "⚠ Please enter password";
+    pwd.style.borderColor = "#c62828";
+  }
+});
+
+pwd.addEventListener("input", function(){
+  errorBox.style.display = "none";
+  pwd.style.borderColor = "#f0d7c8";
+});
+
+</script>
+
+</body>
+</html>
