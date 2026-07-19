@@ -1,69 +1,219 @@
-# 🪔 Kamakshi Catering — Setup Guide
+# 🍃 Kamakshi Catering
 
-## What's new in this version
-- 🎨 Deep Saffron `#e65100` + Gold `#f59e0b` + Cream `#fff8f0` theme
-- 📸 Photo upload in reviews (saved to `static/uploads/`, shown on review cards)
-- 📱 WhatsApp notification to owner when a booking is submitted
-- 🗄️ Updated PostgreSQL schema (`photo_filename` column on reviews)
+A modern, full-stack catering management web application developed for **Kamakshi Catering**, a traditional South Indian Brahmin catering service based in Hyderabad.
+
+The application provides customers with an elegant platform to explore catering services, browse menus, submit event bookings, and share reviews. It also includes a secure admin dashboard for managing bookings, menu items, gallery images, and customer reviews.
 
 ---
 
-## Quick Start
+## 🚀 Features
+
+### Customer Website
+
+* Modern responsive UI
+* Mobile-friendly design
+* Traditional Telugu & English interface
+* Hero section with business highlights
+* About, Services & Menu sections
+* Dynamic Gallery
+* Customer Reviews with Star Ratings
+* Photo upload for reviews
+* Event Booking Form
+* Contact Information
+* WhatsApp & Call integration
+* Smooth animations and scrolling
+
+### Admin Dashboard
+
+* Secure Admin Login
+* Dashboard Statistics
+* Booking Management
+* Mark Bookings as Completed
+* Search Bookings
+* Review Management
+* Gallery Management
+* Dynamic Menu Management
+* Add/Edit/Delete Menu Items
+* Category Management
+* Image Upload Support
+* Delete Confirmation Modals
+* Responsive Admin Panel
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript (ES6)
+
+### Backend
+
+* Python
+* Flask
+
+### Database
+
+* PostgreSQL
+
+### Libraries & Tools
+
+* Font Awesome
+* Google Fonts
+* Psycopg2
+* Python Dotenv
+* Fetch API
+
+---
+
+## 📁 Project Structure
+
+```text
+Kamakshi-Catering/
+│
+├── app.py
+├── schema.sql
+├── .env.example
+│
+├── templates/
+│   ├── index.html
+│   ├── admin.html
+│   └── admin_login.html
+│
+├── static/
+│   ├── css/
+│   │   ├── style.css
+│   │   └── admin.css
+│   │
+│   ├── js/
+│   │   ├── script.js
+│   │   └── admin.js
+│   │
+│   ├── images/
+│   └── uploads/
+│
+└── README.md
+```
+
+---
+
+## ⚙️ Installation
+
+### Clone the repository
+
+### Navigate to the project
 
 ```bash
-# 1. Install dependencies
+cd Kamakshi-Catering
+```
+
+### Create a virtual environment
+
+```bash
+python -m venv venv
+```
+
+### Activate the environment
+
+**Windows**
+
+```bash
+venv\Scripts\activate
+```
+
+**Linux / macOS**
+
+```bash
+source venv/bin/activate
+```
+
+### Install dependencies
+
+```bash
 pip install -r requirements.txt
-
-# 2. Set up environment
-cp .env.example .env
-# → edit .env with your DB credentials and WhatsApp phone
-
-# 3. Create database & tables
-psql -U postgres -c "CREATE DATABASE kamakshi_db;"
-psql -U postgres -d kamakshi_db -f schema.sql
-
-# 4. Run the app
-python app.py
-# → open http://localhost:5000
 ```
 
----
+## ⚙️ Environment Variables
 
-## WhatsApp Notification — How It Works
+1. Copy `.env.example` to `.env`.
+2. Update the values with your local configuration.
+3. Run the application.
 
-When a customer submits a booking, the server sends the owner a WhatsApp message with all booking details.
-
-### Option A — WATI (Recommended for production)
-1. Sign up at https://www.wati.io (free tier: 1,000 conversations/month)
-2. Set `WATI_API_URL`, `WATI_API_TOKEN`, and `OWNER_WHATSAPP_PHONE` in `.env`
-3. Create a message template named `booking_notification` in your WATI dashboard
-
-### Option B — wa.me link (Zero setup, works immediately)
-- Leave `WATI_API_URL` blank in `.env`
-- Set only `OWNER_WHATSAPP_PHONE` (e.g. `919876543210`)
-- When a booking comes in, the **server terminal** will print a `wa.me` link
-- The owner can open this link on their phone → WhatsApp opens with the message pre-filled → tap Send
-
-> **Tip for easy access**: on a VPS, use `tmux` or `screen` so the terminal stays running, or redirect stdout to a log file and tail it.
-
----
-
-## Photo Upload
-- Customers can attach one photo (JPG/PNG/WEBP/GIF, max 5 MB) with their review
-- Photos are saved to `static/uploads/` with a UUID filename
-- Photos are displayed on review cards in the website
-- To serve uploads correctly in production (nginx), add:
-  ```nginx
-  location /static/uploads/ {
-      alias /path/to/kamakshi_catering/static/uploads/;
-  }
-  ```
-
----
-
-## Production Deployment (quick notes)
 ```bash
-pip install gunicorn
-gunicorn -w 4 -b 0.0.0.0:5000 app:app
+cp .env.example .env
 ```
-Point nginx to port 5000 and add the static uploads location block above.
+
+### Run the application
+
+```bash
+python app.py
+```
+
+Open your browser:
+
+```text
+http://127.0.0.1:5000
+```
+
+---
+
+## 📸 Screenshots
+* Home Page
+<img width="1919" height="909" alt="Home Page" src="https://github.com/user-attachments/assets/91494ca6-272c-427d-90c0-55f1bfc6afb3" />
+
+* About Section
+  <img width="1582" height="888" alt="About" src="https://github.com/user-attachments/assets/82b17995-17db-469c-8a8f-f3ac853d40b5" />
+
+* Services
+  <img width="1919" height="907" alt="Services" src="https://github.com/user-attachments/assets/e47062c7-da7b-417f-8a34-b1603ab01958" />
+
+* Menu
+<img width="1326" height="888" alt="Menu1" src="https://github.com/user-attachments/assets/033c05b5-2447-4f39-a0d0-ffdf2bac36d8" />
+<img width="1356" height="911" alt="Menu2" src="https://github.com/user-attachments/assets/47e13403-1e5b-4644-a5a3-927c7b129ee7" />
+
+* Gallery
+    <img width="1898" height="899" alt="Gallery" src="https://github.com/user-attachments/assets/17da2cb7-816c-494f-ac91-24b9dd34fce1" />
+* Booking Form
+  <img width="1919" height="915" alt="Booking Form2" src="https://github.com/user-attachments/assets/57198a8b-99b9-43d3-b482-b4a4982e33b4" />
+  <img width="1919" height="903" alt="Booking Form1" src="https://github.com/user-attachments/assets/30984044-96c1-4884-b9a9-f44279bcea39" />
+* Admin Dashboard
+ <img width="1919" height="910" alt="Admin Dashboard" src="https://github.com/user-attachments/assets/fb83dcd9-8e16-4e0d-abde-15abdf5b6eb3" />
+
+---
+
+## 🎯 Key Functionalities
+
+* Responsive Design
+* Traditional Telugu Branding
+* Dynamic Database Integration
+* Customer Review System
+* Event Booking System
+* Image Upload Support
+* Admin Authentication
+* Menu Management
+* Gallery Management
+* Booking Search
+* Booking Status Tracking
+* WhatsApp Integration
+* PostgreSQL Database
+
+---
+
+## 📄 License
+
+This project is for educational and portfolio purposes.
+
+
+## 👨‍💻 Developed By
+
+**Konduru Venkata Naga Sai Seetharam**
+
+* LinkedIn: https://www.linkedin.com/in/seetharam-konduru-2a4133271/
+
+---
+
+## ⭐ Support
+
+If you found this project helpful, consider giving it a ⭐ on GitHub.
